@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#5b08b8">
+<title>Festival de Ala Ursas de Mari-PB</title>
+<style>
+:root{--purple:#5b08b8;--purple2:#8100c9;--ink:#24143b;--muted:#655b70;--paper:#f7f5ff}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:Arial,Helvetica,sans-serif}
+.top{background:linear-gradient(110deg,#4d00a8,#7900c9);color:white;display:flex;align-items:center;justify-content:space-between;padding:15px 18px;position:sticky;top:0;z-index:10;box-shadow:0 3px 12px #21004430}
+.brand{font-size:1.05rem;font-weight:800;text-align:center;line-height:1.15;flex:1}.menu,.bell{border:0;background:transparent;color:white;font-size:1.65rem;padding:4px 10px}
+.hero{min-height:330px;padding:26px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;color:white;overflow:hidden;background:radial-gradient(circle at 15% 15%,#62d9ff 0 3%,transparent 4%),linear-gradient(140deg,#0877e8,#30b8ef 48%,#ffd34e 49%,#ff8d20)}
+.hero-copy{max-width:58%;text-shadow:0 2px 3px #27104780}.hero .tag{font-weight:900;letter-spacing:.06em;text-transform:uppercase}.hero h1{font-size:clamp(2.1rem,8vw,4rem);line-height:.98;margin:12px 0;color:#fff300;-webkit-text-stroke:1px #4d087f;text-shadow:3px 4px 0 #4d087f}.hero p{font-weight:800;font-size:1.03rem;margin:12px 0 0}.bear{font-size:clamp(6rem,28vw,12rem);filter:drop-shadow(0 8px 4px #43124a70);transform:rotate(-8deg);line-height:1}
+.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:15px;background:white}
+.tile{border:0;border-radius:18px;color:white;text-align:center;min-height:116px;padding:15px 5px;font-size:.9rem;font-weight:800;text-decoration:none;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:8px;box-shadow:0 3px 8px #28104b22}
+.tile span{font-size:2rem}.t1{background:linear-gradient(145deg,#8b16d5,#5700a5)}.t2{background:linear-gradient(145deg,#168ce8,#0064be)}.t3{background:linear-gradient(145deg,#62d83a,#22a32c)}.t4{background:linear-gradient(145deg,#ffad16,#f36b00)}.t5{background:linear-gradient(145deg,#f22d9b,#c90065)}.t6{background:linear-gradient(145deg,#12b7aa,#008477)}
+main{max-width:900px;margin:auto}.section{padding:20px 16px;scroll-margin-top:72px}.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:13px}.section h2{margin:0;color:#4e168b;font-size:1.35rem}.see{color:#5d16a6;text-decoration:none;font-weight:800;font-size:.85rem}
+.news-card{display:flex;align-items:center;gap:12px;background:white;border-radius:18px;padding:10px;box-shadow:0 2px 12px #2d125018;border:1px solid #e8def4}.news-thumb{width:35%;min-width:105px;height:105px;border-radius:13px;background:linear-gradient(135deg,#f8b52b,#ed4a9d,#4a13b2);display:grid;place-items:center;font-size:3.2rem}.news-card h3{font-size:1rem;line-height:1.2;margin:0 0 8px}.news-card p{font-size:.83rem;margin:0;color:var(--muted);line-height:1.4}
+.banner{margin:10px 16px 22px;padding:23px 18px;border-radius:20px;color:#ffe43d;background:linear-gradient(120deg,#5200ad,#8600cb);font-size:clamp(1.35rem,5vw,2rem);font-weight:900;font-style:italic;text-align:center}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.card{background:white;border-radius:16px;padding:15px;border:1px solid #e8def4;box-shadow:0 2px 10px #2d125012}.card h3{margin:0 0 7px;color:#51118d}.card p{margin:0;color:#655b70;line-height:1.5;font-size:.92rem;overflow-wrap:anywhere}.card a{display:inline-block;margin-top:10px;color:#6c0ab4;font-weight:800;text-decoration:none}.empty{background:white;border:1px dashed #cdb7e5;padding:16px;border-radius:14px;color:#655b70;font-size:.9rem}
+#status{margin:12px 16px;padding:10px 13px;border-radius:12px;background:#eee6fa;color:#4e168b;font-size:.82rem}
+.bottom{position:sticky;bottom:0;z-index:8;background:#fff;display:grid;grid-template-columns:repeat(5,1fr);padding:8px 4px max(8px,env(safe-area-inset-bottom));box-shadow:0 -3px 14px #29113c18}.bottom a{text-align:center;text-decoration:none;color:#40394b;font-size:.72rem;font-weight:700}.bottom b{display:block;font-size:1.35rem;color:#5b08b8;margin-bottom:2px}
+footer{text-align:center;background:#3e087e;color:#f3e8ff;padding:25px 15px;font-size:.85rem}
+@media(min-width:700px){.hero{min-height:400px;padding:45px 8%}.quick{max-width:900px;margin:auto}.section{padding:25px 20px}.bear{font-size:13rem}}
+</style>
+</head>
+<body>
+<header class="top">
+  <button class="menu" aria-label="Menu" onclick="document.getElementById('atalhos').scrollIntoView()">☰</button>
+  <div class="brand">Festival de<br>Ala Ursas de Mari-PB</div>
+  <button class="bell" aria-label="Notificações" onclick="alert('Acompanhe as notícias e novidades do festival!')">♧</button>
+</header>
+<div class="hero">
+  <div class="hero-copy">
+    <div class="tag">Mari • Paraíba</div>
+    <h1>Festival<br>de Ala Ursas</h1>
+    <p>Tradição que encanta,<br>cultura que une!</p>
+  </div>
+  <div class="bear" aria-hidden="true">🐻</div>
+</div>
+<main>
+  <nav class="quick" id="atalhos" aria-label="Atalhos do festival">
+    <a class="tile t1" href="#inicio"><span>⌂</span>Início</a>
+    <a class="tile t2" href="#grupos"><span>👥</span>Ala Ursas</a>
+    <a class="tile t3" href="#galeria"><span>▧</span>Galeria</a>
+    <a class="tile t4" href="#programacao"><span>▦</span>Programação</a>
+    <a class="tile t5" href="#noticias"><span>▤</span>Notícias</a>
+    <a class="tile t6" href="#resultados"><span>🏆</span>Resultados</a>
+  </nav>
+  <div id="status">Carregando as informações do festival…</div>
+  <section class="section" id="inicio">
+    <div class="section-head"><h2>📣 Últimas Notícias</h2><a class="see" href="#noticias">Ver todas →</a></div>
+    <div id="destaque-noticia" class="news-card"><div class="news-thumb">🎭</div><div><h3>Bem-vindos ao Festival de Ala Ursas!</h3><p>Acompanhe aqui as novidades do festival em Mari-PB.</p></div></div>
+  </section>
+  <div class="banner">Ala Ursas: nossa identidade, nossa alegria! 💜</div>
+  <section class="section" id="grupos"><div class="section-head"><h2>🐻 Grupos de Ala Ursas</h2></div><div class="cards" id="list-grupos"></div></section>
+  <section class="section" id="programacao"><div class="section-head"><h2>📅 Programação</h2></div><div class="cards" id="list-programacao"></div></section>
+  <section class="section" id="galeria"><div class="section-head"><h2>📸 Galeria</h2></div><div class="cards" id="list-galeria"></div></section>
+  <section class="section" id="noticias"><div class="section-head"><h2>📰 Notícias</h2></div><div class="cards" id="list-noticias"></div></section>
+  <section class="section" id="resultados"><div class="section-head"><h2>🏆 Resultados</h2></div><div class="cards" id="list-resultados"></div></section>
+  <section class="section" id="links"><div class="section-head"><h2>🔗 Links úteis</h2></div><div class="cards" id="list-links"></div></section>
+  <section class="section" id="sobre"><div class="section-head"><h2>ℹ️ Sobre o festival</h2></div><div class="cards" id="list-sobre"></div></section>
+</main>
+<nav class="bottom" aria-label="Menu inferior">
+  <a href="#inicio"><b>⌂</b>Início</a><a href="#programacao"><b>▦</b>Eventos</a><a href="#galeria"><b>▧</b>Galeria</a><a href="#sobre"><b>ⓘ</b>Sobre</a><a href="#atalhos"><b>⚙</b>Mais</a>
+</nav>
+<footer><strong>Festival de Ala Ursas de Mari-PB</strong><br>Tradição que encanta, cultura que une!</footer>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+const firebaseConfig = {
+  apiKey: "AIzaSyDRuHulxUVeKWGKY3c3-cVIiChhH6oNXQE",
+  authDomain: "festival-ala-ursas-mari-pb.firebaseapp.com",
+  projectId: "festival-ala-ursas-mari-pb",
+  storageBucket: "festival-ala-ursas-mari-pb.firebasestorage.app",
+  messagingSenderId: "547879218285",
+  appId: "1:547879218285:web:0d31676b93eabcb67ce364",
+  measurementId: "G-Y8YZ6C2J57"
+};
+const db=getFirestore(initializeApp(firebaseConfig));
+const collections=["grupos","programacao","galeria","noticias","resultados","links","sobre"];
+const first=(o,keys)=>keys.map(k=>o[k]).find(v=>v!==undefined&&v!==null&&String(v).trim()!=="");
+const asText=v=>typeof v==="object"&&v!==null?(v.seconds?new Date(v.seconds*1000).toLocaleString("pt-BR"):Object.values(v).map(asText).join(" • ")):String(v??"");
+function card(data,id){
+ const title=asText(first(data,["titulo","nome","nomeGrupo","grupo","evento","title"]))||"Informação do festival";
+ const desc=asText(first(data,["descricao","descrição","texto","conteudo","conteúdo","detalhes","local","data","resultado","colocacao"]))||"";
+ const url=first(data,["link","url","site","instagram","facebook"]);
+ const el=document.createElement("article");el.className="card";
+ const h=document.createElement("h3");h.textContent=title;el.append(h);
+ if(desc){const p=document.createElement("p");p.textContent=desc;el.append(p)}
+ if(typeof url==="string"&&/^https?:\/\//i.test(url)){const a=document.createElement("a");a.href=url;a.target="_blank";a.rel="noopener";a.textContent="Acessar ↗";el.append(a)}
+ return el;
+}
+async function load(name){
+ const target=document.getElementById("list-"+name);if(!target)return;
+ try{const snap=await getDocs(collection(db,name));if(snap.empty){target.innerHTML='<div class="empty">Nenhum conteúdo cadastrado nesta seção ainda.</div>';return}
+ snap.forEach(d=>target.append(card(d.data(),d.id)));
+ if(name==="noticias"){const firstDoc=snap.docs[0].data();const title=asText(first(firstDoc,["titulo","nome","title"]))||"Últimas notícias";const desc=asText(first(firstDoc,["descricao","texto","conteudo","data"]))||"Confira as novidades do festival.";document.getElementById("destaque-noticia").innerHTML=`<div class="news-thumb">🎭</div><div><h3>${escapeHtml(title)}</h3><p>${escapeHtml(desc)}</p></div>`}
+ }catch(e){target.innerHTML='<div class="empty">Não foi possível carregar. Verifique as regras de leitura do Firestore.</div>';throw e}
+}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+const results=await Promise.allSettled(collections.map(load));
+const status=document.getElementById("status");
+if(results.some(r=>r.status==="rejected")){status.textContent="O visual do aplicativo está pronto, mas algumas informações não carregaram. Verifique as permissões de leitura do Firestore."}
+else{status.textContent="Conectado ao projeto Firebase. As informações cadastradas aparecem nas seções correspondentes."}
+</script>
+</body>
+</html>

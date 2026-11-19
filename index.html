@@ -42,7 +42,7 @@ footer{text-align:center;background:#3e087e;color:#f3e8ff;padding:25px 15px;font
 <main>
   <nav class="quick" id="atalhos" aria-label="Atalhos do festival">
     <a class="tile t1" href="#inicio"><span>⌂</span>Início</a>
-    <a class="tile t2" href="#grupos"><span>👥</span>Ala Ursas</a>
+    <a class="tile t2" href="#agremiacoes"><span>👥</span>Agremiações participantes</a>
     <a class="tile t3" href="#galeria"><span>▧</span>Galeria</a>
     <a class="tile t4" href="#programacao"><span>▦</span>Programação</a>
     <a class="tile t5" href="#noticias"><span>▤</span>Notícias</a>
@@ -54,21 +54,51 @@ footer{text-align:center;background:#3e087e;color:#f3e8ff;padding:25px 15px;font
     <div id="destaque-noticia" class="news-card"><div class="news-thumb">🎭</div><div><h3>Bem-vindos ao Festival de Ala Ursas!</h3><p>Acompanhe aqui as novidades do festival em Mari-PB.</p></div></div>
   </section>
   <div class="banner">Ala Ursas: nossa identidade, nossa alegria! 💜</div>
-  <section class="section" id="grupos"><div class="section-head"><h2>🐻 Grupos de Ala Ursas</h2></div><div class="cards" id="list-grupos"></div></section>
+  <section class="section" id="agremiacoes"><div class="section-head"><h2>🐻 Agremiações Participantes</h2></div><div class="empty">As agremiações participantes do festival serão apresentadas aqui.</div></section>
   <section class="section" id="programacao"><div class="section-head"><h2>📅 Programação</h2></div><div class="cards" id="list-programacao"></div></section>
   <section class="section" id="galeria"><div class="section-head"><h2>📸 Galeria</h2></div><div class="cards" id="list-galeria"></div></section>
   <section class="section" id="noticias"><div class="section-head"><h2>📰 Notícias</h2></div><div class="cards" id="list-noticias"></div></section>
   <section class="section" id="resultados"><div class="section-head"><h2>🏆 Resultados</h2></div><div class="cards" id="list-resultados"></div></section>
   <section class="section" id="links"><div class="section-head"><h2>🔗 Links úteis</h2></div><div class="cards" id="list-links"></div></section>
   <section class="section" id="sobre"><div class="section-head"><h2>ℹ️ Sobre o festival</h2></div><div class="cards" id="list-sobre"></div></section>
+  <section class="section" id="comentarios"><div class="section-head"><h2>💬 Comentários</h2></div>
+    <form class="comment-form" id="comment-form"><textarea id="comment-text" maxlength="1000" placeholder="Escreva seu comentário..." required></textarea><button type="submit">Enviar comentário</button></form>
+    <div id="public-comments"><div class="empty">Carregando comentários...</div></div>
+  </section>
+  <section class="section"><button class="admin-entry" id="admin-open">🔐 Área do administrador</button>
+    <div class="admin-panel" id="admin-panel">
+      <h2>🔐 Administração do festival</h2>
+      <div id="admin-login">
+        <p>Entre com o e-mail e a senha cadastrados no Firebase Authentication.</p>
+        <input id="admin-email" type="email" placeholder="E-mail do administrador">
+        <input id="admin-password" type="password" placeholder="Senha">
+        <button id="admin-login-btn">Entrar</button>
+      </div>
+      <div id="admin-tools" hidden>
+        <p><strong>Gerenciar conteúdo</strong></p>
+        <label>Seção</label><select id="content-section">
+          <option value="agremiacoes">Agremiações participantes</option><option value="programacao">Programação</option><option value="galeria">Galeria</option><option value="noticias">Notícias</option><option value="resultados">Resultados</option><option value="links">Links úteis</option><option value="sobre">Sobre</option>
+        </select>
+        <input id="content-title" placeholder="Título / nome">
+        <textarea id="content-description" placeholder="Descrição / texto"></textarea>
+        <input id="content-link" placeholder="Link (opcional, começando com https://)">
+        <button id="content-save">Salvar novo conteúdo</button>
+        <div id="admin-content-list"></div>
+        <hr><h3>Moderar comentários</h3><div id="admin-comments"></div>
+        <button id="admin-logout">Sair da administração</button>
+      </div>
+      <p id="admin-message" aria-live="polite"></p>
+    </div>
+  </section>
 </main>
 <nav class="bottom" aria-label="Menu inferior">
-  <a href="#inicio"><b>⌂</b>Início</a><a href="#programacao"><b>▦</b>Eventos</a><a href="#galeria"><b>▧</b>Galeria</a><a href="#sobre"><b>ⓘ</b>Sobre</a><a href="#atalhos"><b>⚙</b>Mais</a>
+  <a href="#inicio"><b>⌂</b>Início</a><a href="#programacao"><b>▦</b>Eventos</a><a href="#galeria"><b>▧</b>Galeria</a><a href="#sobre"><b>ⓘ</b>Sobre</a><a href="#comentarios"><b>💬</b>Comentários</a>
 </nav>
 <footer><strong>Festival de Ala Ursas de Mari-PB</strong><br>Tradição que encanta, cultura que une!</footer>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, updateDoc, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 const firebaseConfig = {
   apiKey: "AIzaSyDRuHulxUVeKWGKY3c3-cVIiChhH6oNXQE",
   authDomain: "festival-ala-ursas-mari-pb.firebaseapp.com",
@@ -78,8 +108,12 @@ const firebaseConfig = {
   appId: "1:547879218285:web:0d31676b93eabcb67ce364",
   measurementId: "G-Y8YZ6C2J57"
 };
-const db=getFirestore(initializeApp(firebaseConfig));
-const collections=["grupos","programacao","galeria","noticias","resultados","links","sobre"];
+const app=initializeApp(firebaseConfig);
+const db=getFirestore(app);
+const auth=getAuth(app);
+// IMPORTANTE: substitua pelo UID da conta administradora no Firebase Authentication.
+const ADMIN_UID = "itH32uduEDMLkB8pWv734JO7kQA3";
+const collections=["agremiacoes","programacao","galeria","noticias","resultados","links","sobre"];
 const first=(o,keys)=>keys.map(k=>o[k]).find(v=>v!==undefined&&v!==null&&String(v).trim()!=="");
 const asText=v=>typeof v==="object"&&v!==null?(v.seconds?new Date(v.seconds*1000).toLocaleString("pt-BR"):Object.values(v).map(asText).join(" • ")):String(v??"");
 function card(data,id){
@@ -100,6 +134,63 @@ async function load(name){
  }catch(e){target.innerHTML='<div class="empty">Não foi possível carregar. Verifique as regras de leitura do Firestore.</div>';throw e}
 }
 function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+// Comentários: somente os aprovados aparecem publicamente.
+async function showPublicComments(){
+ const box=document.getElementById("public-comments");
+ try{
+  const snap=await getDocs(query(collection(db,"comentarios"),where("aprovado","==",true)));
+  box.innerHTML="";
+  if(snap.empty){box.innerHTML='<div class="empty">Ainda não há comentários publicados.</div>';return}
+  snap.forEach(d=>{const v=d.data();const el=document.createElement("div");el.className="comment";const b=document.createElement("strong");b.textContent=v.nome||"Visitante";const p=document.createElement("p");p.textContent=v.texto||"";el.append(b,p);box.append(el)});
+ }catch(e){box.innerHTML='<div class="empty">Não foi possível carregar os comentários.</div>'}
+}
+document.getElementById("comment-form").addEventListener("submit",async e=>{
+ e.preventDefault();const texto=document.getElementById("comment-text").value.trim();if(!texto)return;
+ try{await addDoc(collection(db,"comentarios"),{texto,nome:"Visitante",aprovado:false,criadoEm:new Date()});document.getElementById("comment-text").value="";alert("Comentário enviado para aprovação do administrador.");}
+ catch(err){alert("Não foi possível enviar. Verifique a conexão e as regras do Firebase.")}
+});
+document.getElementById("admin-open").addEventListener("click",()=>{const panel=document.getElementById("admin-panel");panel.style.display=panel.style.display==="block"?"none":"block";panel.scrollIntoView({behavior:"smooth",block:"start"})});
+function isAdmin(user){return !!user && user.uid===ADMIN_UID && ADMIN_UID!=="COLOQUE_AQUI_O_UID_DO_ADMINISTRADOR"}
+async function refreshAdmin(){
+ const section=document.getElementById("content-section").value, list=document.getElementById("admin-content-list");list.innerHTML="Carregando...";
+ try{const snap=await getDocs(collection(db,section));list.innerHTML="";
+  if(snap.empty){list.textContent="Nenhum item cadastrado.";return}
+  snap.forEach(d=>{const v=d.data(),row=document.createElement("div");row.className="admin-row";const title=document.createElement("strong");title.textContent=v.titulo||v.nome||"Item";row.append(title);
+   const edit=document.createElement("button");edit.textContent="Editar";edit.onclick=()=>{document.getElementById("content-title").value=v.titulo||v.nome||"";document.getElementById("content-description").value=v.descricao||v.texto||"";document.getElementById("content-link").value=v.link||"";document.getElementById("content-save").dataset.editId=d.id};row.append(edit);
+   const del=document.createElement("button");del.textContent="Excluir";del.onclick=async()=>{if(confirm("Excluir este item?")){await deleteDoc(doc(db,section,d.id));refreshAdmin()}};row.append(del);list.append(row);
+  });
+ }catch(e){list.textContent="Erro ao listar. Confira as regras do Firestore."}
+}
+async function refreshAdminComments(){
+ const box=document.getElementById("admin-comments");box.innerHTML="Carregando...";
+ try{const snap=await getDocs(collection(db,"comentarios"));box.innerHTML="";
+  if(snap.empty){box.textContent="Nenhum comentário recebido.";return}
+  snap.forEach(d=>{const v=d.data(),row=document.createElement("div");row.className="admin-row";const p=document.createElement("p");p.textContent=v.texto||"";row.append(p);const status=document.createElement("small");status.textContent=v.aprovado?"Publicado":"Aguardando aprovação";row.append(status);
+   const approve=document.createElement("button");approve.textContent=v.aprovado?"Ocultar":"Aprovar";approve.onclick=async()=>{await updateDoc(doc(db,"comentarios",d.id),{aprovado:!v.aprovado});refreshAdminComments();showPublicComments()};row.append(approve);
+   const del=document.createElement("button");del.textContent="Excluir";del.onclick=async()=>{if(confirm("Excluir comentário?")){await deleteDoc(doc(db,"comentarios",d.id));refreshAdminComments()}};row.append(del);box.append(row);
+  });
+ }catch(e){box.textContent="Erro ao carregar comentários. Confira as regras do Firestore."}
+}
+document.getElementById("admin-login-btn").onclick=async()=>{
+ const msg=document.getElementById("admin-message");
+ try{await signInWithEmailAndPassword(auth,document.getElementById("admin-email").value,document.getElementById("admin-password").value)}
+ catch(e){msg.textContent="Não foi possível entrar. Confira e-mail, senha e se o acesso por e-mail/senha está ativado no Firebase."}
+};
+onAuthStateChanged(auth,user=>{
+ const allowed=isAdmin(user);document.getElementById("admin-login").hidden=allowed;document.getElementById("admin-tools").hidden=!allowed;
+ if(allowed){refreshAdmin();refreshAdminComments()}else if(user){document.getElementById("admin-message").textContent="Esta conta não está autorizada como administradora."}
+});
+document.getElementById("content-section").addEventListener("change",refreshAdmin);
+document.getElementById("content-save").onclick=async()=>{
+ const section=document.getElementById("content-section").value,title=document.getElementById("content-title").value.trim(),descricao=document.getElementById("content-description").value.trim(),link=document.getElementById("content-link").value.trim(),btn=document.getElementById("content-save");
+ if(!title){alert("Informe um título ou nome.");return}
+ const data={titulo:title,descricao,link};
+ try{if(btn.dataset.editId){await updateDoc(doc(db,section,btn.dataset.editId),data);delete btn.dataset.editId}else{await addDoc(collection(db,section),data)}
+ document.getElementById("content-title").value="";document.getElementById("content-description").value="";document.getElementById("content-link").value="";refreshAdmin();
+ }catch(e){alert("Não foi possível salvar. Confira as regras de gravação do Firestore.")}
+};
+document.getElementById("admin-logout").onclick=()=>signOut(auth);
+await showPublicComments();
 const results=await Promise.allSettled(collections.map(load));
 const status=document.getElementById("status");
 if(results.some(r=>r.status==="rejected")){status.textContent="O visual do aplicativo está pronto, mas algumas informações não carregaram. Verifique as permissões de leitura do Firestore."}
